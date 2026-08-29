@@ -7,6 +7,7 @@ type BlogPost = {
   summary: string;
   content: string;
   date: string;
+  image?: string | null;
 };
 
 export default function Blog() {
@@ -77,27 +78,38 @@ export default function Blog() {
             {blogs.map((post) => (
               <article
                 key={post.id}
-                className="flex flex-col border border-hairline bg-card p-8 transition-all hover:border-orsap-red hover:shadow-sm"
+                className="flex flex-col overflow-hidden border border-hairline bg-card transition-all hover:border-orsap-red hover:shadow-sm"
               >
-                <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-soft">
-                  {new Date(post.date).toLocaleDateString("fr-FR", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
+                {post.image && (
+                  <div className="aspect-video w-full overflow-hidden border-b border-hairline">
+                    <img
+                      src={post.image}
+                      alt={post.title}
+                      className="h-full w-full object-cover transition-transform duration-300 hover:scale-105"
+                    />
+                  </div>
+                )}
+                <div className="flex flex-1 flex-col p-8">
+                  <div className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-soft">
+                    {new Date(post.date).toLocaleDateString("fr-FR", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </div>
+                  <h2 className="mt-4 font-display text-[20px] font-black leading-[1.3] tracking-[-0.01em] text-ink line-clamp-2">
+                    {post.title}
+                  </h2>
+                  <p className="mt-3 flex-1 text-[14.5px] leading-[1.6] text-ink-soft line-clamp-3">
+                    {post.summary}
+                  </p>
+                  <Link
+                    to={`/blog/${post.id}`}
+                    className="mt-8 inline-flex items-center gap-2 font-display text-[13px] font-bold uppercase tracking-[0.06em] text-orsap-red transition-all hover:gap-3 hover:text-orsap-red-deep"
+                  >
+                    Lire l&apos;article <span>→</span>
+                  </Link>
                 </div>
-                <h2 className="mt-4 font-display text-[20px] font-black leading-[1.3] tracking-[-0.01em] text-ink line-clamp-2">
-                  {post.title}
-                </h2>
-                <p className="mt-3 flex-1 text-[14.5px] leading-[1.6] text-ink-soft line-clamp-3">
-                  {post.summary}
-                </p>
-                <Link
-                  to={`/blog/${post.id}`}
-                  className="mt-8 inline-flex items-center gap-2 font-display text-[13px] font-bold uppercase tracking-[0.06em] text-orsap-red transition-all hover:gap-3 hover:text-orsap-red-deep"
-                >
-                  Lire l&apos;article <span>→</span>
-                </Link>
               </article>
             ))}
           </div>

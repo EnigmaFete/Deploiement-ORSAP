@@ -16,7 +16,9 @@ if (!existsSync(DATA_DIR)) mkdirSync(DATA_DIR, { recursive: true });
 
 const app = express();
 app.use(cors());
-app.use(express.json());
+// Set limits high to support base64 images
+app.use(express.json({ limit: "15mb" }));
+app.use(express.urlencoded({ limit: "15mb", extended: true }));
 
 // ── Seed Blog Data ──────────────────────────────────────────────────
 const SEED_BLOGS = [
@@ -35,7 +37,8 @@ Les règles d'or pour un chantier sécurisé :
 3. Respect strict de la charge maximale d'utilisation (CMU) indiquée par le fabricant.
 4. Formation adéquate du personnel au montage et au démontage de la structure.
 
-N'hésitez pas à contacter nos conseillers pour auditer vos besoins en échafaudages professionnels.`
+N'hésitez pas à contacter nos conseillers pour auditer vos besoins en échafaudages professionnels.`,
+    image: null
   },
   {
     id: "optimiser-air-comprime",
@@ -52,7 +55,8 @@ Les 4 actions prioritaires à mener :
 - La mise en place d'un système de récupération de chaleur sur le compresseur pour chauffer l'eau ou les locaux.
 - Un entretien rigoureux des filtres pour éviter les pertes de charge inutiles.
 
-Chez ORSAP, nous proposons une large gamme de compresseurs industriels de dernière génération, équipés de variateurs de vitesse pour s'adapter précisément à votre consommation réelle.`
+Chez ORSAP, nous proposons une large gamme de compresseurs industriels de dernière génération, équipés de variateurs de vitesse pour s'adapter précisément à votre consommation réelle.`,
+    image: null
   }
 ];
 
@@ -153,7 +157,7 @@ app.get("/api/blogs/:id", (req, res) => {
 });
 
 app.post("/api/blogs", (req, res) => {
-  const { title, summary, content } = req.body;
+  const { title, summary, content, image } = req.body;
 
   if (!title || !summary || !content) {
     return res.status(400).json({ error: "Titre, résumé et contenu sont requis." });
@@ -167,7 +171,8 @@ app.post("/api/blogs", (req, res) => {
     date: new Date().toISOString(),
     title,
     summary,
-    content
+    content,
+    image: image || null
   };
 
   const blogs = loadBlogs();
@@ -275,6 +280,9 @@ app.get("/admin", (req, res) => {
     .form-group input:focus, .form-group textarea:focus { border-color: #d3121a; }
     .submit-btn { background: #d3121a; color: #fff; border: none; padding: 12px 24px; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; cursor: pointer; transition: background 0.15s; }
     .submit-btn:hover { background: #a10e14; }
+    
+    .image-preview-container { display: flex; align-items: center; gap: 15px; margin-top: 10px; }
+    .preview-img { max-width: 120px; max-height: 120px; object-fit: cover; border: 1px solid #d9dbdd; display: none; }
   </style>
 </head>
 <body>
@@ -330,6 +338,13 @@ app.get("/admin", (req, res) => {
             <input type="text" id="blogSummary" required placeholder="Court résumé apparaissant dans la liste d'articles..." />
           </div>
           <div class="form-group">
+            <label>Image de l'article</label>
+            <input type="file" id="blogImage" accept="image/*" onchange="previewImage(event)" />
+            <div class="image-preview-container">
+              <img id="imagePreview" class="preview-img" alt="Aperçu" />
+            </div>
+          </div>
+          <div class="form-group">
             <label>Contenu de l'article</label>
             <textarea id="blogContent" rows="10" required placeholder="Rédigez le contenu complet ici. Utilisez deux retours à la ligne pour créer un paragraphe..."></textarea>
           </div>
@@ -359,6 +374,27 @@ app.get("/admin", (req, res) => {
   </div>
 
   <script>
+    // Image handling
+    let base64Image = null;
+    
+    function previewImage(event) {
+      const file = event.target.files[0];
+      if (!file) {
+        base64Image = null;
+        document.getElementById("imagePreview").style.display = "none";
+        return;
+      }
+      
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        base64Image = e.target.result;
+        const preview = document.getElementById("imagePreview");
+        preview.src = base64Image;
+        preview.style.display = "block";
+      };
+      reader.readAsDataURL(file);
+    }
+
     // Delete devis
     async function deleteEntry(id) {
       if (!confirm("Supprimer cette demande ?")) return;
@@ -382,7 +418,7 @@ app.get("/admin", (req, res) => {
       const res = await fetch("/api/blogs", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title, summary, content })
+        body: JSON.stringify({ title, summary, content, image: base64Image })
       });
 
       if (res.ok) {

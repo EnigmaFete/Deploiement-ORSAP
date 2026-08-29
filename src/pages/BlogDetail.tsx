@@ -7,6 +7,7 @@ type BlogPost = {
   summary: string;
   content: string;
   date: string;
+  image?: string | null;
 };
 
 export default function BlogDetail() {
@@ -91,6 +92,16 @@ export default function BlogDetail() {
             <p className="font-display text-[18px] font-bold leading-[1.6] text-ink">
               {post.summary}
             </p>
+
+            {post.image && (
+              <div className="my-8 overflow-hidden border border-hairline aspect-video max-h-[450px]">
+                <img
+                  src={post.image}
+                  alt={post.title}
+                  className="h-full w-full object-cover"
+                />
+              </div>
+            )}
 
             {/* Divider */}
             <hr className="my-8 border-t border-hairline" />
