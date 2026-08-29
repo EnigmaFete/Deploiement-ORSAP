@@ -100,7 +100,7 @@ function esc(str) {
 
 // ── Devis API Routes ────────────────────────────────────────────────
 app.post("/api/devis", (req, res) => {
-  const { clientType, name, company, email, phone, message, solutions } = req.body;
+  const { clientType, name, company, email, phone, message, solutions, sectors } = req.body;
 
   if (!name || !phone) {
     return res.status(400).json({ error: "Nom et téléphone sont obligatoires." });
@@ -120,6 +120,7 @@ app.post("/api/devis", (req, res) => {
     email: email || null,
     phone,
     solutions: clientType === "professional" ? (solutions || []) : [],
+    sectors: clientType === "professional" ? (sectors || []) : [],
     message: message || null,
   };
 
@@ -216,6 +217,11 @@ app.get("/admin", (req, res) => {
       <td>
         ${s.solutions && s.solutions.length > 0
           ? s.solutions.map(sol => `<span class="badge pro" style="display:inline-block; margin:2px; font-size:10.5px;">${esc(sol)}</span>`).join("")
+          : "—"}
+      </td>
+      <td>
+        ${s.sectors && s.sectors.length > 0
+          ? s.sectors.map(sec => `<span class="badge pro" style="display:inline-block; margin:2px; font-size:10.5px; background: #14171a;">${esc(sec)}</span>`).join("")
           : "—"}
       </td>
       <td class="msg">${esc(s.message || "—")}</td>
@@ -323,6 +329,7 @@ app.get("/admin", (req, res) => {
             <th>Email</th>
             <th>Téléphone</th>
             <th>Solutions souhaitées</th>
+            <th>Secteurs d'activité</th>
             <th>Message</th>
             <th>Actions</th>
           </tr>

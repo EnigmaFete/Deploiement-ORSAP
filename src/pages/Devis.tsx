@@ -19,6 +19,7 @@ export default function Devis() {
   });
 
   const [solutions, setSolutions] = useState<string[]>([]);
+  const [sectors, setSectors] = useState<string[]>([]);
 
   const SOLUTIONS_OPTIONS = [
     "Equipements de Protection Individuelle",
@@ -26,6 +27,8 @@ export default function Devis() {
     "Travail En Hauteur",
     "Personnalisation de Vêtements de Travail",
   ];
+
+  const SECTORS_OPTIONS = ["Industrie", "Facility Management", "BTP", "Energie"];
 
   function update(field: keyof typeof form, value: string) {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -40,7 +43,12 @@ export default function Devis() {
       const res = await fetch(API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ clientType, ...form, solutions: clientType === "professional" ? solutions : [] }),
+        body: JSON.stringify({
+          clientType,
+          ...form,
+          solutions: clientType === "professional" ? solutions : [],
+          sectors: clientType === "professional" ? sectors : [],
+        }),
       });
 
       if (!res.ok) {
@@ -68,6 +76,7 @@ export default function Devis() {
     setSubmitted(false);
     setForm({ name: "", company: "", email: "", phone: "", message: "" });
     setSolutions([]);
+    setSectors([]);
     setClientType("professional");
   }
 
@@ -244,6 +253,36 @@ export default function Devis() {
                                 setSolutions([...solutions, opt]);
                               } else {
                                 setSolutions(solutions.filter((s) => s !== opt));
+                              }
+                            }}
+                            className="size-4 shrink-0 accent-orsap-red"
+                          />
+                          <span className="text-[14px] font-medium text-ink">
+                            {opt}
+                          </span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="mb-3 block font-display text-[13px] font-bold uppercase tracking-[0.08em] text-ink">
+                      Secteur(s) d&apos;activité
+                    </label>
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                      {SECTORS_OPTIONS.map((opt) => (
+                        <label
+                          key={opt}
+                          className="flex cursor-pointer select-none items-center gap-3 border border-hairline bg-card p-4 hover:border-orsap-red"
+                        >
+                          <input
+                            type="checkbox"
+                            checked={sectors.includes(opt)}
+                            onChange={(e) => {
+                              if (e.target.checked) {
+                                setSectors([...sectors, opt]);
+                              } else {
+                                setSectors(sectors.filter((s) => s !== opt));
                               }
                             }}
                             className="size-4 shrink-0 accent-orsap-red"
