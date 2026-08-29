@@ -18,6 +18,15 @@ export default function Devis() {
     message: "",
   });
 
+  const [solutions, setSolutions] = useState<string[]>([]);
+
+  const SOLUTIONS_OPTIONS = [
+    "Equipements de Protection Individuelle",
+    "Manutention",
+    "Travail En Hauteur",
+    "Personnalisation de Vêtements de Travail",
+  ];
+
   function update(field: keyof typeof form, value: string) {
     setForm((prev) => ({ ...prev, [field]: value }));
   }
@@ -31,7 +40,7 @@ export default function Devis() {
       const res = await fetch(API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ clientType, ...form }),
+        body: JSON.stringify({ clientType, ...form, solutions: clientType === "professional" ? solutions : [] }),
       });
 
       if (!res.ok) {
@@ -58,6 +67,7 @@ export default function Devis() {
   function handleReset() {
     setSubmitted(false);
     setForm({ name: "", company: "", email: "", phone: "", message: "" });
+    setSolutions([]);
     setClientType("professional");
   }
 
@@ -197,22 +207,54 @@ export default function Devis() {
 
               {/* Email — professional only */}
               {clientType === "professional" && (
-                <div>
-                  <label
-                    htmlFor="devis-email"
-                    className="mb-2 block font-display text-[13px] font-bold uppercase tracking-[0.08em] text-ink"
-                  >
-                    Adresse email <span className="text-orsap-red">*</span>
-                  </label>
-                  <input
-                    id="devis-email"
-                    type="email"
-                    required
-                    value={form.email}
-                    onChange={(e) => update("email", e.target.value)}
-                    placeholder="email@entreprise.com"
-                    className="w-full border border-hairline bg-card px-4 py-3 text-[15px] text-ink outline-none transition-colors placeholder:text-steel focus:border-orsap-red"
-                  />
+                <div className="space-y-6">
+                  <div>
+                    <label
+                      htmlFor="devis-email"
+                      className="mb-2 block font-display text-[13px] font-bold uppercase tracking-[0.08em] text-ink"
+                    >
+                      Adresse email <span className="text-orsap-red">*</span>
+                    </label>
+                    <input
+                      id="devis-email"
+                      type="email"
+                      required
+                      value={form.email}
+                      onChange={(e) => update("email", e.target.value)}
+                      placeholder="email@entreprise.com"
+                      className="w-full border border-hairline bg-card px-4 py-3 text-[15px] text-ink outline-none transition-colors placeholder:text-steel focus:border-orsap-red"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="mb-3 block font-display text-[13px] font-bold uppercase tracking-[0.08em] text-ink">
+                      Solution(s) souhaitée(s)
+                    </label>
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                      {SOLUTIONS_OPTIONS.map((opt) => (
+                        <label
+                          key={opt}
+                          className="flex cursor-pointer select-none items-center gap-3 border border-hairline bg-card p-4 hover:border-orsap-red"
+                        >
+                          <input
+                            type="checkbox"
+                            checked={solutions.includes(opt)}
+                            onChange={(e) => {
+                              if (e.target.checked) {
+                                setSolutions([...solutions, opt]);
+                              } else {
+                                setSolutions(solutions.filter((s) => s !== opt));
+                              }
+                            }}
+                            className="size-4 shrink-0 accent-orsap-red"
+                          />
+                          <span className="text-[14px] font-medium text-ink">
+                            {opt}
+                          </span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               )}
 

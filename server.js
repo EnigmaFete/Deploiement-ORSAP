@@ -100,7 +100,7 @@ function esc(str) {
 
 // ── Devis API Routes ────────────────────────────────────────────────
 app.post("/api/devis", (req, res) => {
-  const { clientType, name, company, email, phone, message } = req.body;
+  const { clientType, name, company, email, phone, message, solutions } = req.body;
 
   if (!name || !phone) {
     return res.status(400).json({ error: "Nom et téléphone sont obligatoires." });
@@ -119,6 +119,7 @@ app.post("/api/devis", (req, res) => {
     company: company || null,
     email: email || null,
     phone,
+    solutions: clientType === "professional" ? (solutions || []) : [],
     message: message || null,
   };
 
@@ -212,6 +213,11 @@ app.get("/admin", (req, res) => {
       <td>${esc(s.company || "—")}</td>
       <td>${s.email ? `<a href="mailto:${esc(s.email)}">${esc(s.email)}</a>` : "—"}</td>
       <td><a href="tel:${esc(s.phone)}">${esc(s.phone)}</a></td>
+      <td>
+        ${s.solutions && s.solutions.length > 0
+          ? s.solutions.map(sol => `<span class="badge pro" style="display:inline-block; margin:2px; font-size:10.5px;">${esc(sol)}</span>`).join("")
+          : "—"}
+      </td>
       <td class="msg">${esc(s.message || "—")}</td>
       <td><button class="del-btn" onclick="deleteEntry('${s.id}')">Supprimer</button></td>
     </tr>`,
@@ -316,6 +322,7 @@ app.get("/admin", (req, res) => {
             <th>Entreprise</th>
             <th>Email</th>
             <th>Téléphone</th>
+            <th>Solutions souhaitées</th>
             <th>Message</th>
             <th>Actions</th>
           </tr>
