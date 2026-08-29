@@ -14,6 +14,7 @@ import Devis from "@/pages/Devis";
 import ComingSoon from "@/pages/ComingSoon";
 import Blog from "@/pages/Blog";
 import BlogDetail from "@/pages/BlogDetail";
+import Contact from "@/pages/Contact";
 
 export const router = createBrowserRouter([
   {
@@ -33,7 +34,7 @@ export const router = createBrowserRouter([
       { path: "devis", Component: Devis },
       { path: "blog", Component: Blog },
       { path: "blog/:id", Component: BlogDetail },
-      { path: "contact", element: <Navigate to="/devis" replace /> },
+      { path: "contact", Component: Contact },
       {
         path: "*",
         element: (
