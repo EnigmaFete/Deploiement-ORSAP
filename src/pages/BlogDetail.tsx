@@ -128,33 +128,14 @@ export default function BlogDetail() {
                       <h3 className="font-display text-[15px] font-bold text-ink leading-tight">
                         {post.pdfName || "Document joint"}
                       </h3>
-                      <p className="text-[12px] text-ink-soft">Document PDF intégré</p>
+                      <p className="text-[12px] text-ink-soft">Visualisation en ligne (Téléchargement désactivé)</p>
                     </div>
                   </div>
-                  
-                  <button
-                    onClick={() => {
-                      if (!post?.pdf) return;
-                      const base64Data = post.pdf.split(",")[1];
-                      const byteCharacters = atob(base64Data);
-                      const byteNumbers = new Array(byteCharacters.length);
-                      for (let i = 0; i < byteCharacters.length; i++) {
-                        byteNumbers[i] = byteCharacters.charCodeAt(i);
-                      }
-                      const byteArray = new Uint8Array(byteNumbers);
-                      const blob = new Blob([byteArray], { type: "application/pdf" });
-                      const blobUrl = URL.createObjectURL(blob);
-                      window.open(blobUrl, "_blank");
-                    }}
-                    className="bg-ink text-white hover:bg-orsap-red hover:text-white px-5 py-2.5 font-display text-[13px] font-bold uppercase tracking-[0.04em] transition-colors whitespace-nowrap cursor-pointer"
-                  >
-                    Ouvrir plein écran ↗
-                  </button>
                 </div>
                 
                 <div className="border border-hairline w-full bg-paper overflow-hidden shadow-sm">
                   <iframe
-                    src={post.pdf}
+                    src={`${post.pdf}#toolbar=0`}
                     title={post.pdfName || "Document"}
                     className="w-full h-[650px] border-none"
                   />
