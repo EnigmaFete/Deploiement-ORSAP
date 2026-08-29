@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, NavLink, Outlet, ScrollRestoration } from "react-router";
-import orsapIcon from "@/imports/ICONE_ORSAP.png";
+import orsapIcon from "@/imports/logo.jpg";
 import { NAV } from "@/layout/nav";
 
 function OrsapMark() {

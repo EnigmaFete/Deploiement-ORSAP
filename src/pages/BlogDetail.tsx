@@ -8,6 +8,8 @@ type BlogPost = {
   content: string;
   date: string;
   image?: string | null;
+  pdf?: string | null;
+  pdfName?: string | null;
 };
 
 export default function BlogDetail() {
@@ -114,6 +116,27 @@ export default function BlogDetail() {
                 </p>
               ))}
             </div>
+
+            {post.pdf && (
+              <div className="mt-12 p-6 bg-card border border-hairline flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="flex items-center gap-3">
+                  <svg className="w-8 h-8 text-orsap-red shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                  </svg>
+                  <div>
+                    <div className="font-display text-[15px] font-bold text-ink">{post.pdfName || "Document joint"}</div>
+                    <div className="text-[12px] text-ink-soft">Format PDF</div>
+                  </div>
+                </div>
+                <a
+                  href={post.pdf}
+                  download={post.pdfName || "document.pdf"}
+                  className="bg-orsap-red text-white hover:bg-orsap-red-deep px-5 py-2.5 font-display text-[13px] font-bold uppercase tracking-[0.04em] transition-colors whitespace-nowrap"
+                >
+                  Télécharger le document
+                </a>
+              </div>
+            )}
           </div>
         ) : null}
       </section>

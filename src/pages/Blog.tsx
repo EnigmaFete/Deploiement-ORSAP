@@ -8,6 +8,8 @@ type BlogPost = {
   content: string;
   date: string;
   image?: string | null;
+  pdf?: string | null;
+  pdfName?: string | null;
 };
 
 export default function Blog() {

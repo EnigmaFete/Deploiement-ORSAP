@@ -16,9 +16,9 @@ if (!existsSync(DATA_DIR)) mkdirSync(DATA_DIR, { recursive: true });
 
 const app = express();
 app.use(cors());
-// Set limits high to support base64 images
-app.use(express.json({ limit: "15mb" }));
-app.use(express.urlencoded({ limit: "15mb", extended: true }));
+// Increase body limit to support base64 images and PDFs
+app.use(express.json({ limit: "25mb" }));
+app.use(express.urlencoded({ limit: "25mb", extended: true }));
 
 // ── Seed Blog Data ──────────────────────────────────────────────────
 const SEED_BLOGS = [
@@ -157,7 +157,7 @@ app.get("/api/blogs/:id", (req, res) => {
 });
 
 app.post("/api/blogs", (req, res) => {
-  const { title, summary, content, image } = req.body;
+  const { title, summary, content, image, pdf, pdfName } = req.body;
 
   if (!title || !summary || !content) {
     return res.status(400).json({ error: "Titre, résumé et contenu sont requis." });
@@ -172,7 +172,9 @@ app.post("/api/blogs", (req, res) => {
     title,
     summary,
     content,
-    image: image || null
+    image: image || null,
+    pdf: pdf || null,
+    pdfName: pdfName || null
   };
 
   const blogs = loadBlogs();
@@ -345,6 +347,11 @@ app.get("/admin", (req, res) => {
             </div>
           </div>
           <div class="form-group">
+            <label>Fiche technique / Document (PDF)</label>
+            <input type="file" id="blogPdf" accept="application/pdf" onchange="previewPdf(event)" />
+            <div id="pdfName" style="font-size: 13px; font-weight: 600; color: #d3121a; margin-top: 10px; display: none;"></div>
+          </div>
+          <div class="form-group">
             <label>Contenu de l'article</label>
             <textarea id="blogContent" rows="10" required placeholder="Rédigez le contenu complet ici. Utilisez deux retours à la ligne pour créer un paragraphe..."></textarea>
           </div>
@@ -376,6 +383,28 @@ app.get("/admin", (req, res) => {
   <script>
     // Image handling
     let base64Image = null;
+    let base64Pdf = null;
+    let pdfFileName = null;
+    
+    function previewPdf(event) {
+      const file = event.target.files[0];
+      if (!file) {
+        base64Pdf = null;
+        pdfFileName = null;
+        document.getElementById("pdfName").style.display = "none";
+        return;
+      }
+      
+      pdfFileName = file.name;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        base64Pdf = e.target.result;
+        const nameEl = document.getElementById("pdfName");
+        nameEl.textContent = "📄 " + pdfFileName;
+        nameEl.style.display = "block";
+      };
+      reader.readAsDataURL(file);
+    }
     
     function previewImage(event) {
       const file = event.target.files[0];
@@ -418,7 +447,7 @@ app.get("/admin", (req, res) => {
       const res = await fetch("/api/blogs", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title, summary, content, image: base64Image })
+        body: JSON.stringify({ title, summary, content, image: base64Image, pdf: base64Pdf, pdfName: pdfFileName })
       });
 
       if (res.ok) {
