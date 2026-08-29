@@ -231,7 +231,7 @@ export default function Devis() {
                   required
                   value={form.phone}
                   onChange={(e) => update("phone", e.target.value)}
-                  placeholder="+212 6 00 00 00 00"
+                  placeholder="+212 6 44 20 30 30"
                   className="w-full border border-hairline bg-card px-4 py-3 text-[15px] text-ink outline-none transition-colors placeholder:text-steel focus:border-orsap-red"
                 />
               </div>

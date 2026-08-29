@@ -30,8 +30,8 @@ export default function Root() {
             Import &amp; distribution · Services aux industries · Casablanca
           </span>
           <div className="flex items-center gap-5 text-white/70">
-            <a href="tel:+212522000000" className="hover:text-white">
-              +212 5 22 00 00 00
+            <a href="tel:+212644203030" className="hover:text-white">
+              +212 6 44 20 30 30
             </a>
             <span className="text-white/25">/</span>
             <a href="#" className="hover:text-white">
@@ -179,18 +179,18 @@ export default function Root() {
             <ul className="mt-4 space-y-2 text-[14px] text-white/70">
               <li>Casablanca, Maroc</li>
               <li>
-                <a href="tel:+212522000000" className="hover:text-white">
-                  +212 5 22 00 00 00
+                <a href="tel:+212644203030" className="hover:text-white">
+                  +212 6 44 20 30 30
                 </a>
               </li>
               <li>
                 <a
-                  href="https://wa.me/212661000000"
+                  href="https://wa.me/212644203030"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="hover:text-white"
                 >
-                  WhatsApp : +212 6 61 00 00 00
+                  WhatsApp : +212 6 44 20 30 30
                 </a>
               </li>
               <li>
