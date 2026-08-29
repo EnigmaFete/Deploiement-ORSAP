@@ -5,4 +5,5 @@ export const NAV = [
   { label: "Services", to: "/services" },
   { label: "Marques", to: "/marques" },
   { label: "Témoignages", to: "/temoignages" },
+  { label: "Blog", to: "/blog" },
 ];

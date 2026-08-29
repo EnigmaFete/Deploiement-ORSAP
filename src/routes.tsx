@@ -12,6 +12,8 @@ import Testimonials from "@/pages/Testimonials";
 import TestimonialDetail from "@/pages/TestimonialDetail";
 import Devis from "@/pages/Devis";
 import ComingSoon from "@/pages/ComingSoon";
+import Blog from "@/pages/Blog";
+import BlogDetail from "@/pages/BlogDetail";
 
 export const router = createBrowserRouter([
   {
@@ -29,6 +31,8 @@ export const router = createBrowserRouter([
       { path: "temoignages", Component: Testimonials },
       { path: "temoignages/:client", Component: TestimonialDetail },
       { path: "devis", Component: Devis },
+      { path: "blog", Component: Blog },
+      { path: "blog/:id", Component: BlogDetail },
       { path: "contact", element: <Navigate to="/devis" replace /> },
       {
         path: "*",
