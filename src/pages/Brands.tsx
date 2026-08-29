@@ -2,6 +2,145 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router";
 import { BRANDS, CATEGORIES, type Category } from "@/data/brands";
 
+function BrandLogo({ slug, name }: { slug: string; name: string }) {
+  const colors: Record<
+    string,
+    { bg: string; text: string; border?: string; font?: string; label?: string }
+  > = {
+    bosch: {
+      bg: "#e20015",
+      text: "#ffffff",
+      font: "font-sans font-black italic tracking-wide text-[13px]",
+    },
+    dewalt: {
+      bg: "#febd11",
+      text: "#000000",
+      font: "font-sans font-black tracking-tighter italic text-[14px]",
+    },
+    stanley: {
+      bg: "#000000",
+      text: "#febd11",
+      font: "font-sans font-black tracking-wide text-[12px]",
+    },
+    facom: {
+      bg: "#ffffff",
+      text: "#d3121a",
+      border: "border border-[#d3121a] px-3",
+      font: "font-serif font-black italic text-[14px]",
+    },
+    makita: {
+      bg: "#008a97",
+      text: "#ffffff",
+      font: "font-sans font-extrabold italic tracking-tight text-[13px]",
+    },
+    vito: {
+      bg: "#ff5000",
+      text: "#ffffff",
+      font: "font-sans font-black tracking-widest text-[11px]",
+    },
+    valex: {
+      bg: "#ffffff",
+      text: "#005ea6",
+      border: "border border-[#005ea6] px-2",
+      font: "font-sans font-extrabold text-[12px]",
+    },
+    "3m": {
+      bg: "#ff0000",
+      text: "#ffffff",
+      font: "font-sans font-black tracking-tighter text-[15px]",
+    },
+    honeywell: {
+      bg: "#ff0000",
+      text: "#ffffff",
+      font: "font-sans font-black tracking-widest italic text-[10px]",
+    },
+    "delta-plus": {
+      bg: "#1e3a8a",
+      text: "#ffffff",
+      font: "font-sans font-bold text-[11px]",
+      label: "DELTA PLUS",
+    },
+    "schneider-electric": {
+      bg: "#3dcd58",
+      text: "#ffffff",
+      font: "font-sans font-bold text-[10px]",
+      label: "SCHNEIDER",
+    },
+    legrand: {
+      bg: "#e20015",
+      text: "#ffffff",
+      font: "font-sans font-extrabold italic text-[12px]",
+    },
+    abb: {
+      bg: "#ffffff",
+      text: "#ff0000",
+      border: "border border-red-500 px-3",
+      font: "font-sans font-black text-[13px]",
+    },
+    grohe: {
+      bg: "#002f6c",
+      text: "#ffffff",
+      font: "font-sans font-bold italic text-[12px]",
+    },
+    wilo: {
+      bg: "#009639",
+      text: "#ffffff",
+      font: "font-sans font-black tracking-wider text-[12px]",
+    },
+    sika: {
+      bg: "#ffcd00",
+      text: "#000000",
+      font: "font-sans font-black text-[14px]",
+    },
+    mapei: {
+      bg: "#0055a5",
+      text: "#ffffff",
+      font: "font-sans font-black tracking-wide text-[12px]",
+    },
+    jungheinrich: {
+      bg: "#ffc600",
+      text: "#000000",
+      font: "font-sans font-black italic text-[11px]",
+    },
+    fenwick: {
+      bg: "#ffffff",
+      text: "#ff0000",
+      border: "border border-red-500 px-2",
+      font: "font-sans font-bold italic text-[12px]",
+    },
+    philips: {
+      bg: "#002d62",
+      text: "#ffffff",
+      font: "font-sans font-black tracking-wide text-[11px]",
+    },
+    stihl: {
+      bg: "#ff7300",
+      text: "#ffffff",
+      font: "font-sans font-black tracking-wide text-[12px]",
+    },
+    hilti: {
+      bg: "#d3121a",
+      text: "#ffffff",
+      font: "font-sans font-black tracking-widest text-[11px]",
+    },
+  };
+
+  const style = colors[slug] || {
+    bg: "#14171a",
+    text: "#ffffff",
+    font: "font-sans font-bold text-[12px]",
+  };
+
+  return (
+    <div
+      className={`inline-flex items-center justify-center min-w-[75px] text-center py-2 px-3.5 select-none ${style.font || ""} ${style.border || ""}`}
+      style={{ backgroundColor: style.bg, color: style.text }}
+    >
+      {style.label || name}
+    </div>
+  );
+}
+
 export default function Brands() {
   const [query, setQuery] = useState("");
   const [active, setActive] = useState<Category | "all">("all");
@@ -91,31 +230,37 @@ export default function Brands() {
             Aucune marque ne correspond à votre recherche.
           </p>
         ) : (
-          <div className="mt-10 grid grid-cols-1 gap-px overflow-hidden border border-hairline bg-hairline sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {filtered.map((b) => (
               <Link
                 key={b.slug}
                 to={`/marques/${b.slug}`}
-                className="group flex flex-col bg-card p-7 transition-colors hover:bg-paper"
+                className="group flex flex-col border border-hairline bg-card p-7 transition-colors hover:border-orsap-red"
               >
-                <div className="flex items-start justify-between gap-3">
-                  <span className="font-display text-[26px] font-black uppercase leading-none tracking-[-0.02em] text-ink transition-colors group-hover:text-orsap-red">
-                    {b.name}
-                  </span>
+                <div className="flex h-14 items-center">
+                  <BrandLogo slug={b.slug} name={b.name} />
+                </div>
+                <div className="mt-4 flex items-center justify-between gap-3">
+                  <div className="font-mono text-[11px] uppercase tracking-[0.12em] text-steel">
+                    {b.origin}
+                  </div>
                   {b.certified && (
-                    <span className="shrink-0 border border-orsap-red px-2 py-1 font-mono text-[9.5px] uppercase tracking-[0.1em] text-orsap-red">
+                    <span className="shrink-0 border border-orsap-red px-2 py-0.5 font-mono text-[9px] uppercase tracking-[0.08em] text-orsap-red">
                       Agréé
                     </span>
                   )}
                 </div>
-                <p className="mt-4 flex-1 text-[13.5px] leading-[1.5] text-ink-soft">
+                <h2 className="mt-3 font-display text-[17px] font-bold leading-tight tracking-[-0.01em] text-ink group-hover:text-orsap-red">
+                  {b.name}
+                </h2>
+                <p className="mt-3 flex-1 text-[13.5px] leading-[1.55] text-ink-soft line-clamp-2">
                   {b.positioning}
                 </p>
                 <div className="mt-5 flex flex-wrap gap-1.5">
                   {b.categories.map((c) => (
                     <span
                       key={c}
-                      className="bg-paper px-2.5 py-1 font-mono text-[10.5px] uppercase tracking-[0.08em] text-steel"
+                      className="bg-paper px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.08em] text-steel"
                     >
                       {c}
                     </span>
