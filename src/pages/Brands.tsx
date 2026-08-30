@@ -23,6 +23,8 @@ import logoMakita from "@/imports/logo_makita.jpg"
 import logoVito from "@/imports/logo_vito.jpg"
 import logoWilo from "@/imports/logo_wilo.jpg"
 
+// LOGO_IMAGES maps a brand's URL-friendly "slug" to its imported logo image asset.
+// If a brand is added to this dictionary, the website will display its official logo.
 const LOGO_IMAGES: Record<string, string> = {
   bosch: logoBosch,
   dewalt: logoDewalt,
@@ -46,6 +48,8 @@ const LOGO_IMAGES: Record<string, string> = {
   wilo: logoWilo,
 }
 
+// BrandLogo renders the official logo image if available in LOGO_IMAGES.
+// Otherwise, it falls back to a clean, styled CSS-only logo badge using the brand's primary colors.
 function BrandLogo({ slug, name }: { slug: string name: string }) {
   if (LOGO_IMAGES[slug]) {
     return (
