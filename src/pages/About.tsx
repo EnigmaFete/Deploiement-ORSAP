@@ -1,5 +1,5 @@
-import { Link } from "react-router";
-import aboutPhoto from "@/imports/plate_forme_Orsap-1.jpeg";
+import { Link } from "react-router"
+import aboutPhoto from "@/imports/plate_forme_Orsap-1.jpeg"
 
 const VALUES = [
   {
@@ -22,7 +22,7 @@ const VALUES = [
     title: "Relation de confiance",
     body: "Nous construisons des relations durables avec nos clients, fournisseurs et collaborateurs, basées sur l'honnêteté, la transparence et le respect des engagements.",
   },
-];
+]
 
 const DIFFERENTIATORS = [
   {
@@ -45,14 +45,14 @@ const DIFFERENTIATORS = [
     title: "Une capacité projet",
     body: "Études, installations et travaux — réseaux, compresseurs, postes de soudage, revêtements, plomberie, climatisation — pour des résultats concrets et mesurables.",
   },
-];
+]
 
 const COMMITMENTS = [
   "Comprendre votre métier et vos contraintes.",
   "Vous proposer des solutions adaptées à votre budget et à vos objectifs.",
   "Vous livrer dans les délais annoncés, avec un suivi clair et transparent.",
   "Vous accompagner dans la durée, grâce à un SAV réactif et compétent.",
-];
+]
 
 export default function About() {
   return (
@@ -61,8 +61,7 @@ export default function About() {
       <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
         <div className="lg:col-span-6">
           <div className="mb-6 flex items-center gap-3 text-[12.5px] font-semibold uppercase tracking-[0.14em] text-orsap-red">
-            <span className="h-px w-8 bg-orsap-red" />
-            À propos d&apos;ORSAP
+            <span className="h-px w-8 bg-orsap-red" />À propos d&apos;ORSAP
           </div>
           <h1 className="font-display text-[clamp(2rem,3.6vw,3rem)] font-black leading-[1.02] tracking-[-0.025em]">
             Un partenaire de confiance pour l&apos;industrie marocaine.
@@ -205,12 +204,16 @@ export default function About() {
         <ul className="divide-y divide-white/15 lg:col-span-7">
           {COMMITMENTS.map((c, i) => (
             <li key={c} className="flex gap-5 py-4 first:pt-0">
-              <span className="font-mono text-[13px] text-safety">0{i + 1}</span>
-              <span className="text-[16px] leading-[1.5] text-white/90">{c}</span>
+              <span className="font-mono text-[13px] text-safety">
+                0{i + 1}
+              </span>
+              <span className="text-[16px] leading-[1.5] text-white/90">
+                {c}
+              </span>
             </li>
           ))}
         </ul>
       </div>
     </div>
-  );
+  )
 }

@@ -1,14 +1,14 @@
-import { Link, useParams } from "react-router";
-import { SERVICES } from "@/data/services";
+import { Link, useParams } from "react-router"
+import { SERVICES } from "@/data/services"
 
 function List({
   title,
   items,
   accent,
 }: {
-  title: string;
-  items: string[];
-  accent?: boolean;
+  title: string
+  items: string[]
+  accent?: boolean
 }) {
   return (
     <div>
@@ -17,7 +17,10 @@ function List({
       </h2>
       <ul className="mt-5 space-y-3">
         {items.map((it) => (
-          <li key={it} className="flex gap-3 text-[15px] leading-[1.55] text-ink-soft">
+          <li
+            key={it}
+            className="flex gap-3 text-[15px] leading-[1.55] text-ink-soft"
+          >
             <span
               className={`mt-2 h-1.5 w-1.5 shrink-0 ${
                 accent ? "bg-safety" : "bg-orsap-red"
@@ -28,13 +31,13 @@ function List({
         ))}
       </ul>
     </div>
-  );
+  )
 }
 
 export default function ServiceDetail() {
-  const { service = "" } = useParams();
-  const data = SERVICES.find((s) => s.slug === service);
-  const index = SERVICES.findIndex((s) => s.slug === service);
+  const { service = "" } = useParams()
+  const data = SERVICES.find((s) => s.slug === service)
+  const index = SERVICES.findIndex((s) => s.slug === service)
 
   if (!data) {
     return (
@@ -49,10 +52,10 @@ export default function ServiceDetail() {
           Retour aux services
         </Link>
       </div>
-    );
+    )
   }
 
-  const next = SERVICES[(index + 1) % SERVICES.length];
+  const next = SERVICES[(index + 1) % SERVICES.length]
 
   return (
     <div>
@@ -155,5 +158,5 @@ export default function ServiceDetail() {
         </div>
       </section>
     </div>
-  );
+  )
 }

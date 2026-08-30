@@ -1,43 +1,43 @@
-import { useEffect, useState, type FormEvent } from "react";
-import { Link } from "react-router";
+import { useEffect, useState, type FormEvent } from "react"
+import { Link } from "react-router"
 
-type ClientType = "professional" | "personal";
+type ClientType = "professional" | "personal"
 
-const API_URL = "/api/devis";
+const API_URL = "/api/devis"
 
 export default function Devis() {
-  const [clientType, setClientType] = useState<ClientType>("professional");
-  const [submitted, setSubmitted] = useState(false);
-  const [sending, setSending] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [clientType, setClientType] = useState<ClientType>("professional")
+  const [submitted, setSubmitted] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const [form, setForm] = useState({
     name: "",
     company: "",
     email: "",
     phone: "",
     message: "",
-  });
+  })
 
-  const [solutions, setSolutions] = useState<string[]>([]);
-  const [sectors, setSectors] = useState<string[]>([]);
+  const [solutions, setSolutions] = useState<string[]>([])
+  const [sectors, setSectors] = useState<string[]>([])
 
   const SOLUTIONS_OPTIONS = [
     "Equipements de Protection Individuelle",
     "Manutention",
     "Travail En Hauteur",
     "Personnalisation de Vêtements de Travail",
-  ];
+  ]
 
-  const SECTORS_OPTIONS = ["Industrie", "Facility Management", "BTP", "Energie"];
+  const SECTORS_OPTIONS = ["Industrie", "Facility Management", "BTP", "Energie"]
 
   function update(field: keyof typeof form, value: string) {
-    setForm((prev) => ({ ...prev, [field]: value }));
+    setForm((prev) => ({ ...prev, [field]: value }))
   }
 
   async function handleSubmit(e: FormEvent) {
-    e.preventDefault();
-    setSending(true);
-    setError(null);
+    e.preventDefault()
+    setSending(true)
+    setError(null)
 
     try {
       const res = await fetch(API_URL, {
@@ -49,35 +49,35 @@ export default function Devis() {
           solutions: clientType === "professional" ? solutions : [],
           sectors: clientType === "professional" ? sectors : [],
         }),
-      });
+      })
 
       if (!res.ok) {
-        const data = await res.json().catch(() => null);
-        throw new Error(data?.error || "Erreur serveur. Veuillez réessayer.");
+        const data = await res.json().catch(() => null)
+        throw new Error(data?.error || "Erreur serveur. Veuillez réessayer.")
       }
 
-      setSubmitted(true);
+      setSubmitted(true)
     } catch (err: unknown) {
       setError(
         err instanceof Error ? err.message : "Impossible d'envoyer la demande.",
-      );
+      )
     } finally {
-      setSending(false);
+      setSending(false)
     }
   }
 
   useEffect(() => {
-    if (!submitted) return;
-    const timer = setTimeout(() => handleReset(), 10000);
-    return () => clearTimeout(timer);
-  }, [submitted]);
+    if (!submitted) return
+    const timer = setTimeout(() => handleReset(), 10000)
+    return () => clearTimeout(timer)
+  }, [submitted])
 
   function handleReset() {
-    setSubmitted(false);
-    setForm({ name: "", company: "", email: "", phone: "", message: "" });
-    setSolutions([]);
-    setSectors([]);
-    setClientType("professional");
+    setSubmitted(false)
+    setForm({ name: "", company: "", email: "", phone: "", message: "" })
+    setSolutions([])
+    setSectors([])
+    setClientType("professional")
   }
 
   return (
@@ -151,12 +151,10 @@ export default function Devis() {
                   Type de client
                 </label>
                 <div className="flex gap-0 border border-hairline">
-                  {(
-                    [
-                      { key: "professional", label: "Professionnel" },
-                      { key: "personal", label: "Particulier" },
-                    ] as const
-                  ).map((opt) => (
+                  {([
+                    { key: "professional", label: "Professionnel" },
+                    { key: "personal", label: "Particulier" },
+                  ] as const).map((opt) => (
                     <button
                       key={opt.key}
                       type="button"
@@ -250,9 +248,9 @@ export default function Devis() {
                             checked={solutions.includes(opt)}
                             onChange={(e) => {
                               if (e.target.checked) {
-                                setSolutions([...solutions, opt]);
+                                setSolutions([...solutions, opt])
                               } else {
-                                setSolutions(solutions.filter((s) => s !== opt));
+                                setSolutions(solutions.filter((s) => s !== opt))
                               }
                             }}
                             className="size-4 shrink-0 accent-orsap-red"
@@ -280,9 +278,9 @@ export default function Devis() {
                             checked={sectors.includes(opt)}
                             onChange={(e) => {
                               if (e.target.checked) {
-                                setSectors([...sectors, opt]);
+                                setSectors([...sectors, opt])
                               } else {
-                                setSectors(sectors.filter((s) => s !== opt));
+                                setSectors(sectors.filter((s) => s !== opt))
                               }
                             }}
                             className="size-4 shrink-0 accent-orsap-red"
@@ -303,8 +301,7 @@ export default function Devis() {
                   htmlFor="devis-phone"
                   className="mb-2 block font-display text-[13px] font-bold uppercase tracking-[0.08em] text-ink"
                 >
-                  Numéro de téléphone{" "}
-                  <span className="text-orsap-red">*</span>
+                  Numéro de téléphone <span className="text-orsap-red">*</span>
                 </label>
                 <input
                   id="devis-phone"
@@ -388,5 +385,5 @@ export default function Devis() {
         )}
       </section>
     </div>
-  );
+  )
 }

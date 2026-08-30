@@ -1,39 +1,39 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router";
+import { useEffect, useState } from "react"
+import { Link } from "react-router"
 
 type BlogPost = {
-  id: string;
-  title: string;
-  summary: string;
-  content: string;
-  date: string;
-  image?: string | null;
-  pdf?: string | null;
-  pdfName?: string | null;
-};
+  id: string
+  title: string
+  summary: string
+  content: string
+  date: string
+  image?: string | null
+  pdf?: string | null
+  pdfName?: string | null
+}
 
 export default function Blog() {
-  const [blogs, setBlogs] = useState<BlogPost[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [blogs, setBlogs] = useState<BlogPost[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     async function fetchBlogs() {
       try {
-        const res = await fetch("/api/blogs");
-        if (!res.ok) throw new Error("Impossible de charger les articles.");
-        const data = await res.json();
-        setBlogs(data);
+        const res = await fetch("/api/blogs")
+        if (!res.ok) throw new Error("Impossible de charger les articles.")
+        const data = await res.json()
+        setBlogs(data)
       } catch (err: unknown) {
         setError(
           err instanceof Error ? err.message : "Une erreur est survenue.",
-        );
+        )
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
     }
-    fetchBlogs();
-  }, []);
+    fetchBlogs()
+  }, [])
 
   return (
     <div>
@@ -118,5 +118,5 @@ export default function Blog() {
         )}
       </section>
     </div>
-  );
+  )
 }

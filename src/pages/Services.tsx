@@ -1,12 +1,12 @@
-import { Link } from "react-router";
-import { SERVICES, PROCESS } from "@/data/services";
+import { Link } from "react-router"
+import { SERVICES, PROCESS } from "@/data/services"
 
 const STATS = [
   { value: "15 000+", label: "produits" },
   { value: "300+", label: "marques" },
   { value: "100+", label: "grands comptes" },
   { value: "72h", label: "livraison max" },
-];
+]
 
 export default function Services() {
   return (
@@ -32,8 +32,8 @@ export default function Services() {
           <p className="mt-6 text-[17px] leading-[1.6] text-ink-soft">
             ORSAP ne se limite pas à la vente de produits. Nous concevons,
             installons et maintenons des solutions techniques pour
-            l&apos;industrie, le bâtiment et les particuliers, avec un engagement
-            fort sur la qualité, la sécurité et les délais.
+            l&apos;industrie, le bâtiment et les particuliers, avec un
+            engagement fort sur la qualité, la sécurité et les délais.
           </p>
         </div>
 
@@ -128,8 +128,8 @@ export default function Services() {
       <section className="mx-auto max-w-[1240px] px-6 pb-20 lg:pb-28">
         <div className="flex flex-col items-start justify-between gap-6 bg-ink p-10 text-paper sm:flex-row sm:items-center lg:p-14">
           <h2 className="max-w-xl font-display text-[clamp(1.6rem,2.8vw,2.4rem)] font-black leading-[1.05] tracking-[-0.02em] text-white">
-            Vous avez un projet ? Nos experts vous accompagnent de l&apos;étude à
-            la réalisation.
+            Vous avez un projet ? Nos experts vous accompagnent de l&apos;étude
+            à la réalisation.
           </h2>
           <Link
             to="/devis"
@@ -140,5 +140,5 @@ export default function Services() {
         </div>
       </section>
     </div>
-  );
+  )
 }

@@ -1,11 +1,11 @@
-import { Link } from "react-router";
+import { Link } from "react-router"
 
 export default function ComingSoon({
   title,
   description,
 }: {
-  title: string;
-  description: string;
+  title: string
+  description: string
 }) {
   return (
     <div className="mx-auto max-w-[1240px] px-6 py-24 lg:py-32">
@@ -35,5 +35,5 @@ export default function ComingSoon({
         </Link>
       </div>
     </div>
-  );
+  )
 }

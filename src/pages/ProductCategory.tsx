@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router";
+import { Link, useParams } from "react-router"
 
 const TITLES: Record<string, string> = {
   epi: "EPI — Équipements de protection individuelle",
@@ -13,11 +13,11 @@ const TITLES: Record<string, string> = {
   jardinage: "Jardinage & espaces verts",
   consommables: "Consommables industriels",
   luminaires: "Luminaires & éclairage",
-};
+}
 
 export default function ProductCategory() {
-  const { category = "" } = useParams();
-  const title = TITLES[category] ?? "Catégorie";
+  const { category = "" } = useParams()
+  const title = TITLES[category] ?? "Catégorie"
 
   return (
     <div className="mx-auto max-w-[1240px] px-6 py-16 lg:py-24">
@@ -61,5 +61,5 @@ export default function ProductCategory() {
         </Link>
       </div>
     </div>
-  );
+  )
 }

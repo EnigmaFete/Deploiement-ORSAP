@@ -1,28 +1,28 @@
-import { Link } from "react-router";
+import { Link } from "react-router"
 
 // Category imagery sourced from Unsplash, pre-cropped to a 4:3 card ratio.
 const U = (id: string) =>
-  `https://images.unsplash.com/${id}?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&q=80&w=1080&h=810`;
+  `https://images.unsplash.com/${id}?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&q=80&w=1080&h=810`
 
-const EPI = U("photo-1735494032948-14ef288fc9d3");
-const OUTILLAGE = U("photo-1770763233593-74dfd0da7bf0");
-const ROULEMENTS = U("photo-1524514587686-e2909d726e9b");
-const JARDINAGE = U("photo-1537877853655-34bdcda5e833");
-const CONSOMMABLES = U("photo-1644079446600-219068676743");
-const LUMINAIRES = U("photo-1762120514622-d57c902f2fe6");
-const ECHAFAUDAGE = U("photo-1649320316177-775fe2d67ca3");
-const MANUTENTION = U("photo-1620388640785-892616248ec8");
-const CLIMATISATION = U("photo-1667983453881-4992fe86ab1b");
-const ELECTRICITE = U("photo-1780034766462-e8af5f2c9e22");
-const QUINCAILLERIE = U("photo-1763888450676-f0f7a3987917");
-const REVETEMENTS = U("photo-1560005627-c96e0aeb6eaa");
+const EPI = U("photo-1735494032948-14ef288fc9d3")
+const OUTILLAGE = U("photo-1770763233593-74dfd0da7bf0")
+const ROULEMENTS = U("photo-1524514587686-e2909d726e9b")
+const JARDINAGE = U("photo-1537877853655-34bdcda5e833")
+const CONSOMMABLES = U("photo-1644079446600-219068676743")
+const LUMINAIRES = U("photo-1762120514622-d57c902f2fe6")
+const ECHAFAUDAGE = U("photo-1649320316177-775fe2d67ca3")
+const MANUTENTION = U("photo-1620388640785-892616248ec8")
+const CLIMATISATION = U("photo-1667983453881-4992fe86ab1b")
+const ELECTRICITE = U("photo-1780034766462-e8af5f2c9e22")
+const QUINCAILLERIE = U("photo-1763888450676-f0f7a3987917")
+const REVETEMENTS = U("photo-1560005627-c96e0aeb6eaa")
 
 type Category = {
-  slug: string;
-  title: string;
-  desc: string;
-  img: string;
-};
+  slug: string
+  title: string
+  desc: string
+  img: string
+}
 
 const CATEGORIES: Category[] = [
   {
@@ -97,7 +97,7 @@ const CATEGORIES: Category[] = [
     desc: "Éclairage industriel, commercial et résidentiel : projecteurs, réglettes et LED.",
     img: LUMINAIRES,
   },
-];
+]
 
 export default function Products() {
   return (
@@ -185,5 +185,5 @@ export default function Products() {
         </Link>
       </div>
     </div>
-  );
+  )
 }

@@ -1,10 +1,10 @@
-import { Link, useParams } from "react-router";
-import { SUCCESSES } from "@/data/successes";
+import { Link, useParams } from "react-router"
+import { SUCCESSES } from "@/data/successes"
 
 export default function TestimonialDetail() {
-  const { client = "" } = useParams();
-  const data = SUCCESSES.find((s) => s.slug === client);
-  const index = SUCCESSES.findIndex((s) => s.slug === client);
+  const { client = "" } = useParams()
+  const data = SUCCESSES.find((s) => s.slug === client)
+  const index = SUCCESSES.findIndex((s) => s.slug === client)
 
   if (!data) {
     return (
@@ -19,10 +19,10 @@ export default function TestimonialDetail() {
           Retour aux témoignages
         </Link>
       </div>
-    );
+    )
   }
 
-  const next = SUCCESSES[(index + 1) % SUCCESSES.length];
+  const next = SUCCESSES[(index + 1) % SUCCESSES.length]
 
   return (
     <div>
@@ -138,5 +138,5 @@ export default function TestimonialDetail() {
         </div>
       </section>
     </div>
-  );
+  )
 }

@@ -1,12 +1,12 @@
-import { Link } from "react-router";
-import { SUCCESSES } from "@/data/successes";
+import { Link } from "react-router"
+import { SUCCESSES } from "@/data/successes"
 
 const STATS = [
   { value: "8", label: "secteurs accompagnés" },
   { value: "15 000+", label: "références mobilisées" },
   { value: "1", label: "interlocuteur unique" },
   { value: "72h", label: "livraison max" },
-];
+]
 
 export default function Testimonials() {
   return (
@@ -122,7 +122,8 @@ export default function Testimonials() {
       <section className="mx-auto max-w-[1240px] px-6 py-20 lg:py-28">
         <div className="flex flex-col items-start justify-between gap-6 bg-ink p-10 text-paper sm:flex-row sm:items-center lg:p-14">
           <h2 className="max-w-xl font-display text-[clamp(1.6rem,2.8vw,2.4rem)] font-black leading-[1.05] tracking-[-0.02em] text-white">
-            Envie de rejoindre nos clients ? Parlons de vos besoins d&apos;équipement.
+            Envie de rejoindre nos clients ? Parlons de vos besoins
+            d&apos;équipement.
           </h2>
           <Link
             to="/devis"
@@ -133,5 +134,5 @@ export default function Testimonials() {
         </div>
       </section>
     </div>
-  );
+  )
 }

@@ -1,12 +1,12 @@
-import { Link } from "react-router";
-import heroPhoto from "@/imports/Hero_Acceuil.jpeg";
+import { Link } from "react-router"
+import heroPhoto from "@/imports/Hero_Acceuil.jpeg"
 
 const STATS = [
   { value: "15 000", unit: "références", note: "disponibles en stock" },
   { value: "72h", unit: "délai max", note: "de livraison au Maroc" },
   { value: "300", unit: "marques", note: "distribuées et sourcées" },
   { value: "100", unit: "grands comptes", note: "industriels servis" },
-];
+]
 
 export default function Home() {
   return (
@@ -78,6 +78,47 @@ export default function Home() {
           ))}
         </div>
       </section>
+
+      {/* Video Section */}
+      <section className="border-t border-hairline bg-card py-16 lg:py-24">
+        <div className="mx-auto max-w-[1240px] px-6">
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:items-center">
+            <div className="lg:col-span-5">
+              <div className="mb-6 flex items-center gap-3 text-[12.5px] font-semibold uppercase tracking-[0.14em] text-orsap-red">
+                <span className="h-px w-8 bg-orsap-red" />
+                Présentation
+              </div>
+              <h2 className="font-display text-[clamp(1.8rem,3vw,2.4rem)] font-black leading-[1.1] tracking-[-0.02em]">
+                Découvrez ORSAP en vidéo
+              </h2>
+              <p className="mt-5 text-[15.5px] leading-[1.65] text-ink-soft">
+                Découvrez nos infrastructures, nos équipes et notre engagement à
+                vous fournir les meilleures solutions techniques et équipements
+                industriels au Maroc.
+              </p>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <Link
+                  to="/a-propos"
+                  className="inline-flex items-center justify-center bg-ink px-6 py-3 font-display text-[13px] font-bold uppercase tracking-[0.04em] text-white transition-colors hover:bg-ink-soft"
+                >
+                  À propos de nous
+                </Link>
+              </div>
+            </div>
+            <div className="lg:col-span-7">
+              <div className="relative w-full overflow-hidden rounded-xl border border-hairline bg-ink shadow-lg aspect-video">
+                <iframe
+                  className="absolute inset-0 h-full w-full"
+                  src="https://www.youtube.com/embed/tXgG_JxqlSg"
+                  title="YouTube video player"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                ></iframe>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </>
-  );
+  )
 }

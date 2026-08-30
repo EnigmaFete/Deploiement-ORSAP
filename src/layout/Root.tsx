@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { Link, NavLink, Outlet, ScrollRestoration } from "react-router";
-import orsapIcon from "@/imports/logo.jpg";
-import { NAV } from "@/layout/nav";
+import { useState } from "react"
+import { Link, NavLink, Outlet, ScrollRestoration } from "react-router"
+import orsapIcon from "@/imports/logo.jpg"
+import { NAV } from "@/layout/nav"
 
 function OrsapMark() {
   return (
@@ -15,11 +15,11 @@ function OrsapMark() {
         ORSAP
       </div>
     </Link>
-  );
+  )
 }
 
 export default function Root() {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false)
 
   return (
     <div className="flex min-h-screen flex-col bg-paper text-ink">
@@ -90,7 +90,9 @@ export default function Root() {
                 />
                 <span
                   className={`absolute left-0 h-0.5 w-5 bg-current transition-all ${
-                    menuOpen ? "top-1/2 -translate-y-1/2 -rotate-45" : "bottom-0"
+                    menuOpen
+                      ? "top-1/2 -translate-y-1/2 -rotate-45"
+                      : "bottom-0"
                   }`}
                 />
               </span>
@@ -109,7 +111,9 @@ export default function Root() {
                     onClick={() => setMenuOpen(false)}
                     className={({ isActive }) =>
                       `block border-b border-hairline/60 py-3.5 text-[15px] font-medium transition-colors ${
-                        isActive ? "text-orsap-red" : "text-ink hover:text-orsap-red"
+                        isActive
+                          ? "text-orsap-red"
+                          : "text-ink hover:text-orsap-red"
                       }`
                     }
                   >
@@ -194,6 +198,11 @@ export default function Root() {
                 </a>
               </li>
               <li>
+                <a href="mailto:orsap@orsap.ma" className="hover:text-white">
+                  orsap@orsap.ma
+                </a>
+              </li>
+              <li>
                 <Link to="/devis" className="text-white hover:text-orsap-red">
                   Demander un devis →
                 </Link>
@@ -210,5 +219,5 @@ export default function Root() {
 
       <ScrollRestoration />
     </div>
-  );
+  )
 }

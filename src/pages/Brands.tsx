@@ -1,12 +1,71 @@
-import { useMemo, useState } from "react";
-import { Link } from "react-router";
-import { BRANDS, CATEGORIES, type Category } from "@/data/brands";
+import { useMemo, useState } from "react"
+import { Link } from "react-router"
+import { BRANDS, CATEGORIES, type Category } from "@/data/brands"
 
-function BrandLogo({ slug, name }: { slug: string; name: string }) {
-  const colors: Record<
-    string,
-    { bg: string; text: string; border?: string; font?: string; label?: string }
-  > = {
+import logoBosch from "@/imports/logo_bosch.jpg"
+import logoDewalt from "@/imports/logo_dewalt.png"
+import logoFacom from "@/imports/logo_facom.jpg"
+import logoDeltaplus from "@/imports/logo_deltaplus.jpg"
+import logoAbb from "@/imports/logo_abb.png"
+import logoStihl from "@/imports/logo_stihl.jpg"
+import logoSchneider from "@/imports/logo_schneider.jpg"
+import logoSika from "@/imports/logo_sika.png"
+import logoStanley from "@/imports/logo_stanley.png"
+import logoValex from "@/imports/logo_valex.png"
+import logoMapei from "@/imports/logo_mapei.jpg"
+import logoPhilips from "@/imports/logo_philips.jpg"
+import logoFenwick from "@/imports/logo_fenwick.jpg"
+import logoGrohe from "@/imports/logo_grohe.png"
+import logoHilti from "@/imports/logo_hilti.jpg"
+import logoHoneywell from "@/imports/logo_honeywell.png"
+import logoJungheinrich from "@/imports/logo_jungheinrich.jpg"
+import logoMakita from "@/imports/logo_makita.jpg"
+import logoVito from "@/imports/logo_vito.jpg"
+import logoWilo from "@/imports/logo_wilo.jpg"
+
+const LOGO_IMAGES: Record<string, string> = {
+  bosch: logoBosch,
+  dewalt: logoDewalt,
+  facom: logoFacom,
+  "delta-plus": logoDeltaplus,
+  abb: logoAbb,
+  stihl: logoStihl,
+  "schneider-electric": logoSchneider,
+  sika: logoSika,
+  stanley: logoStanley,
+  valex: logoValex,
+  mapei: logoMapei,
+  philips: logoPhilips,
+  fenwick: logoFenwick,
+  grohe: logoGrohe,
+  hilti: logoHilti,
+  honeywell: logoHoneywell,
+  jungheinrich: logoJungheinrich,
+  makita: logoMakita,
+  vito: logoVito,
+  wilo: logoWilo,
+}
+
+function BrandLogo({ slug, name }: { slug: string name: string }) {
+  if (LOGO_IMAGES[slug]) {
+    return (
+      <div className="inline-flex items-center justify-center select-none bg-white p-1 rounded-sm border border-hairline">
+        <img
+          src={LOGO_IMAGES[slug]}
+          alt={name}
+          className="h-10 w-auto object-contain max-w-[130px]"
+        />
+      </div>
+    )
+  }
+
+  const colors: Record<string, {
+    bg: string
+    text: string
+    border?: string
+    font?: string
+    label?: string
+  }> = {
     bosch: {
       bg: "#e20015",
       text: "#ffffff",
@@ -123,13 +182,13 @@ function BrandLogo({ slug, name }: { slug: string; name: string }) {
       text: "#ffffff",
       font: "font-sans font-black tracking-widest text-[11px]",
     },
-  };
+  }
 
   const style = colors[slug] || {
     bg: "#14171a",
     text: "#ffffff",
     font: "font-sans font-bold text-[12px]",
-  };
+  }
 
   return (
     <div
@@ -138,21 +197,21 @@ function BrandLogo({ slug, name }: { slug: string; name: string }) {
     >
       {style.label || name}
     </div>
-  );
+  )
 }
 
 export default function Brands() {
-  const [query, setQuery] = useState("");
-  const [active, setActive] = useState<Category | "all">("all");
+  const [query, setQuery] = useState("")
+  const [active, setActive] = useState<Category | "all">("all")
 
   const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
+    const q = query.trim().toLowerCase()
     return BRANDS.filter((b) => {
-      const matchQuery = !q || b.name.toLowerCase().includes(q);
-      const matchCat = active === "all" || b.categories.includes(active);
-      return matchQuery && matchCat;
-    }).sort((a, b) => a.name.localeCompare(b.name));
-  }, [query, active]);
+      const matchQuery = !q || b.name.toLowerCase().includes(q)
+      const matchCat = active === "all" || b.categories.includes(active)
+      return matchQuery && matchCat
+    }).sort((a, b) => a.name.localeCompare(b.name))
+  }, [query, active])
 
   return (
     <div>
@@ -175,11 +234,11 @@ export default function Brands() {
             Plus de 300 marques internationales sélectionnées.
           </h1>
           <p className="mt-6 text-[17px] leading-[1.6] text-ink-soft">
-            ORSAP travaille avec plus de 300 marques reconnues pour leur qualité,
-            leur fiabilité et leur innovation. Nous sélectionnons des fabricants
-            leaders dans chaque catégorie — EPI, outillage, électricité,
-            plomberie, revêtements — pour vous garantir des produits conformes aux
-            normes et adaptés à vos besoins.
+            ORSAP travaille avec plus de 300 marques reconnues pour leur
+            qualité, leur fiabilité et leur innovation. Nous sélectionnons des
+            fabricants leaders dans chaque catégorie — EPI, outillage,
+            électricité, plomberie, revêtements — pour vous garantir des
+            produits conformes aux normes et adaptés à vos besoins.
           </p>
         </div>
 
@@ -205,7 +264,7 @@ export default function Brands() {
 
           <div className="mt-6 flex flex-wrap gap-2">
             {(["all", ...CATEGORIES] as const).map((cat) => {
-              const isActive = active === cat;
+              const isActive = active === cat
               return (
                 <button
                   key={cat}
@@ -219,7 +278,7 @@ export default function Brands() {
                 >
                   {cat === "all" ? "Toutes" : cat}
                 </button>
-              );
+              )
             })}
           </div>
         </div>
@@ -293,5 +352,5 @@ export default function Brands() {
         </div>
       </section>
     </div>
-  );
+  )
 }

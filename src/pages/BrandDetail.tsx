@@ -1,9 +1,9 @@
-import { Link, useParams } from "react-router";
-import { BRANDS, CATEGORY_COPY } from "@/data/brands";
+import { Link, useParams } from "react-router"
+import { BRANDS, CATEGORY_COPY } from "@/data/brands"
 
 export default function BrandDetail() {
-  const { brand = "" } = useParams();
-  const data = BRANDS.find((b) => b.slug === brand);
+  const { brand = "" } = useParams()
+  const data = BRANDS.find((b) => b.slug === brand)
 
   if (!data) {
     return (
@@ -18,11 +18,11 @@ export default function BrandDetail() {
           Retour aux marques
         </Link>
       </div>
-    );
+    )
   }
 
-  const primary = data.categories[0];
-  const copy = CATEGORY_COPY[primary];
+  const primary = data.categories[0]
+  const copy = CATEGORY_COPY[primary]
 
   return (
     <div>
@@ -78,7 +78,9 @@ export default function BrandDetail() {
               La marque
             </h2>
             <p className="mt-5 text-[17px] leading-[1.65] text-ink">
-              {data.name} est reconnue pour {data.positioning.charAt(0).toLowerCase() + data.positioning.slice(1)}{" "}
+              {data.name} est reconnue pour{" "}
+              {data.positioning.charAt(0).toLowerCase() +
+                data.positioning.slice(1)}{" "}
               {copy.blurb} ORSAP en distribue une large gamme et accompagne ses
               clients dans le choix, l&apos;approvisionnement et le suivi des
               produits.
@@ -167,5 +169,5 @@ export default function BrandDetail() {
         </div>
       </section>
     </div>
-  );
+  )
 }

@@ -7,4 +7,4 @@ export const NAV = [
   { label: "Témoignages", to: "/temoignages" },
   { label: "Blog", to: "/blog" },
   { label: "Contact", to: "/contact" },
-];
+]

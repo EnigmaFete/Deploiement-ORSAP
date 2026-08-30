@@ -1,40 +1,40 @@
-import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router";
+import { useEffect, useState } from "react"
+import { Link, useParams } from "react-router"
 
 type BlogPost = {
-  id: string;
-  title: string;
-  summary: string;
-  content: string;
-  date: string;
-  image?: string | null;
-  pdf?: string | null;
-  pdfName?: string | null;
-};
+  id: string
+  title: string
+  summary: string
+  content: string
+  date: string
+  image?: string | null
+  pdf?: string | null
+  pdfName?: string | null
+}
 
 export default function BlogDetail() {
-  const { id } = useParams();
-  const [post, setPost] = useState<BlogPost | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { id } = useParams()
+  const [post, setPost] = useState<BlogPost | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     async function fetchPost() {
       try {
-        const res = await fetch(`/api/blogs/${id}`);
-        if (!res.ok) throw new Error("Article introuvable.");
-        const data = await res.json();
-        setPost(data);
+        const res = await fetch(`/api/blogs/${id}`)
+        if (!res.ok) throw new Error("Article introuvable.")
+        const data = await res.json()
+        setPost(data)
       } catch (err: unknown) {
         setError(
           err instanceof Error ? err.message : "Une erreur est survenue.",
-        );
+        )
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
     }
-    fetchPost();
-  }, [id]);
+    fetchPost()
+  }, [id])
 
   return (
     <div>
@@ -121,18 +121,30 @@ export default function BlogDetail() {
               <div className="mt-12 border-t border-hairline pt-10">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
                   <div className="flex items-center gap-3">
-                    <svg className="w-6 h-6 text-orsap-red shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                    <svg
+                      className="w-6 h-6 text-orsap-red shrink-0"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={2}
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
+                      />
                     </svg>
                     <div>
                       <h3 className="font-display text-[15px] font-bold text-ink leading-tight">
                         {post.pdfName || "Document joint"}
                       </h3>
-                      <p className="text-[12px] text-ink-soft">Visualisation en ligne (Téléchargement désactivé)</p>
+                      <p className="text-[12px] text-ink-soft">
+                        Visualisation en ligne (Téléchargement désactivé)
+                      </p>
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="border border-hairline w-full bg-paper overflow-hidden shadow-sm">
                   <iframe
                     src={`${post.pdf}#toolbar=0`}
@@ -146,5 +158,5 @@ export default function BlogDetail() {
         ) : null}
       </section>
     </div>
-  );
+  )
 }

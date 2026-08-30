@@ -1,16 +1,16 @@
-import { Link } from "react-router";
+import { Link } from "react-router"
 
 export default function Contact() {
-  const PHONE_DISPLAY = "+212 6 44 20 30 30";
-  const PHONE_HREF = "tel:+212644203030";
-  const WHATSAPP_DISPLAY = "+212 6 44 20 30 30";
-  const WHATSAPP_HREF = "https://wa.me/212644203030";
-  const EMAIL_DISPLAY = "contact@orsap.ma";
-  const EMAIL_HREF = "mailto:contact@orsap.ma";
-  const ADDRESS = "Casablanca, Maroc";
+  const PHONE_DISPLAY = "+212 6 44 20 30 30"
+  const PHONE_HREF = "tel:+212644203030"
+  const WHATSAPP_DISPLAY = "+212 6 44 20 30 30"
+  const WHATSAPP_HREF = "https://wa.me/212644203030"
+  const EMAIL_DISPLAY = "orsap@orsap.ma"
+  const EMAIL_HREF = "mailto:orsap@orsap.ma"
+  const ADDRESS = "Casablanca, Maroc"
   const MAP_HREF =
     "https://www.google.com/maps/search/?api=1&query=" +
-    encodeURIComponent("ORSAP Casablanca Maroc");
+    encodeURIComponent("ORSAP Casablanca Maroc")
 
   return (
     <div>
@@ -50,7 +50,8 @@ export default function Contact() {
               Par téléphone
             </h2>
             <p className="mt-2 text-[14.5px] leading-[1.5] text-ink-soft">
-              Pour joindre directement l&apos;un de nos experts commerciaux ou techniques.
+              Pour joindre directement l&apos;un de nos experts commerciaux ou
+              techniques.
             </p>
             <div className="mt-6 flex-1 font-display text-[20px] font-bold text-orsap-red">
               {PHONE_DISPLAY}
@@ -72,7 +73,8 @@ export default function Contact() {
               WhatsApp
             </h2>
             <p className="mt-2 text-[14.5px] leading-[1.5] text-ink-soft">
-              Envoyez-nous vos fiches, photos de produits ou besoins urgents directement.
+              Envoyez-nous vos fiches, photos de produits ou besoins urgents
+              directement.
             </p>
             <div className="mt-6 flex-1 font-display text-[20px] font-bold text-orsap-red">
               {WHATSAPP_DISPLAY}
@@ -96,7 +98,8 @@ export default function Contact() {
               Par email
             </h2>
             <p className="mt-2 text-[14.5px] leading-[1.5] text-ink-soft">
-              Pour nous envoyer des cahiers des charges ou des demandes formelles.
+              Pour nous envoyer des cahiers des charges ou des demandes
+              formelles.
             </p>
             <div className="mt-6 flex-1 font-display text-[20px] font-bold text-orsap-red">
               {EMAIL_DISPLAY}
@@ -169,7 +172,8 @@ export default function Contact() {
               Vous souhaitez obtenir un prix précis ?
             </h2>
             <p className="mt-2 text-[14.5px] text-white/60">
-              Utilisez notre formulaire en ligne pour détailler votre besoin et obtenir une offre personnalisée.
+              Utilisez notre formulaire en ligne pour détailler votre besoin et
+              obtenir une offre personnalisée.
             </p>
           </div>
           <Link
@@ -181,5 +185,5 @@ export default function Contact() {
         </div>
       </section>
     </div>
-  );
+  )
 }
