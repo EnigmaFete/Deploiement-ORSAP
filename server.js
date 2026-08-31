@@ -8,6 +8,8 @@ import {
   saveSubmissions,
   loadBlogs,
   saveBlogs,
+  loadApplications,
+  saveApplications,
 } from "./server/database.js"
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -91,6 +93,70 @@ app.delete("/api/devis/:id", (req, res) => {
   return res.json({ success: true })
 })
 
+// ── Recruitment API Routes ──────────────────────────────────────────
+app.post("/api/recrutement", (req, res) => {
+  const { name, email, phone, position, message, cv, cvName } = req.body
+
+  if (!name || !email || !phone || !position || !cv) {
+    return res.status(400).json({ error: "Tous les champs obligatoires (nom, email, téléphone, poste, CV) doivent être remplis." })
+  }
+
+  const entry = {
+    id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+    createdAt: new Date().toISOString(),
+    name,
+    email,
+    phone,
+    position,
+    message: message || null,
+    cv,
+    cvName: cvName || "cv.pdf"
+  }
+
+  const apps = loadApplications()
+  apps.unshift(entry)
+  saveApplications(apps)
+
+  console.log(`✅  New recruitment application from ${name} for position ${position}`)
+  return res.status(201).json({ success: true, id: entry.id })
+})
+
+app.get("/api/recrutement", (_req, res) => {
+  return res.json(loadApplications())
+})
+
+app.delete("/api/recrutement/:id", (req, res) => {
+  let apps = loadApplications()
+  const before = apps.length
+  apps = apps.filter((a) => a.id !== req.params.id)
+  if (apps.length === before) {
+    return res.status(404).json({ error: "Not found" })
+  }
+  saveApplications(apps)
+  return res.json({ success: true })
+})
+
+app.get("/api/recrutement/:id/cv", (req, res) => {
+  const apps = loadApplications()
+  const appEntry = apps.find((a) => a.id === req.params.id)
+  if (!appEntry || !appEntry.cv) {
+    return res.status(404).send("CV introuvable.")
+  }
+
+  const matches = appEntry.cv.match(/^data:([^;]+);base64,(.+)$/)
+  if (!matches) {
+    return res.status(400).send("Format de fichier invalide.")
+  }
+
+  const contentType = matches[1]
+  const base64Data = matches[2]
+  const buffer = Buffer.from(base64Data, "base64")
+
+  res.setHeader("Content-Type", contentType)
+  res.setHeader("Content-Disposition", `attachment; filename="${encodeURIComponent(appEntry.cvName)}"`)
+  return res.send(buffer)
+})
+
 // ── Blog API Routes ─────────────────────────────────────────────────
 app.get("/api/blogs", (_req, res) => {
   return res.json(loadBlogs())
@@ -147,11 +213,93 @@ app.delete("/api/blogs/:id", (req, res) => {
   return res.json({ success: true })
 })
 
+// ── Admin Authentication ────────────────────────────────────────────
+app.get("/admin/logo.jpg", (req, res) => {
+  const logoPath = join(__dirname, "src", "imports", "logo.jpg")
+  if (existsSync(logoPath)) {
+    res.setHeader("Content-Type", "image/jpeg")
+    return res.sendFile(logoPath)
+  }
+  return res.status(404).send("Logo missing.")
+})
+
+function renderLoginPage(res, errorMsg = "") {
+  const errorHtml = errorMsg
+    ? `<div class="error">${esc(errorMsg)}</div>`
+    : ""
+
+  const html = `<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ORSAP — Connexion Administration</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', system-ui, sans-serif; background: #14171a; color: #fff; display: grid; place-items: center; min-height: 100vh; padding: 20px; }
+    .card { background: #1f2327; border: 1px solid rgba(255,255,255,0.08); padding: 40px; width: 100%; max-width: 420px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); border-radius: 8px; }
+    .logo-container { display: flex; justify-content: center; margin-bottom: 24px; }
+    .logo-img { height: 60px; width: 60px; border-radius: 12px; object-fit: contain; }
+    h2 { font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.6); margin-bottom: 20px; text-align: center; }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; color: rgba(255,255,255,0.7); }
+    .form-group input { width: 100%; padding: 12px; background: #14171a; border: 1px solid rgba(255,255,255,0.15); color: #fff; outline: none; font-size: 15px; text-align: center; letter-spacing: 0.15em; border-radius: 4px; }
+    .form-group input:focus { border-color: #d3121a; }
+    .btn { width: 100%; padding: 14px; background: #d3121a; color: #fff; border: none; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; cursor: pointer; transition: background 0.2s; border-radius: 4px; }
+    .btn:hover { background: #a10e14; }
+    .error { color: #d3121a; background: rgba(211,18,26,0.1); border-left: 3px solid #d3121a; padding: 12px; font-size: 13.5px; font-weight: 600; margin-bottom: 20px; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo-container">
+      <img src="/admin/logo.jpg" alt="ORSAP Logo" class="logo-img" />
+    </div>
+    <h2>Accès Réservé</h2>
+    
+    ${errorHtml}
+    
+    <form method="POST" action="/admin/login">
+      <div class="form-group">
+        <label for="password">Mot de passe de sécurité</label>
+        <input type="password" id="password" name="password" required autofocus>
+      </div>
+      <button type="submit" class="btn">Se connecter</button>
+    </form>
+  </div>
+</body>
+</html>`
+
+  res.setHeader("Content-Type", "text/html; charset=utf-8")
+  return res.end(html)
+}
+
+app.post("/admin/login", (req, res) => {
+  const { password } = req.body
+  if (password === "MotaFouad223") {
+    res.setHeader("Set-Cookie", "orsap_admin_session=authenticated; Path=/; Max-Age=604800; HttpOnly; SameSite=Strict")
+    return res.redirect("/admin")
+  } else {
+    return renderLoginPage(res, "Mot de passe incorrect.")
+  }
+})
+
+app.get("/admin/logout", (req, res) => {
+  res.setHeader("Set-Cookie", "orsap_admin_session=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT")
+  return res.redirect("/admin")
+})
+
 // ── Admin Dashboard ─────────────────────────────────────────────────
 app.get("/admin", (req, res) => {
+  const cookies = req.headers.cookie || ""
+  if (!cookies.includes("orsap_admin_session=authenticated")) {
+    return renderLoginPage(res)
+  }
+
   const tab = req.query.tab || "devis"
   const submissions = loadSubmissions()
   const blogs = loadBlogs()
+  const apps = loadApplications()
 
   // Generate rows for devis
   const devisRows = submissions
@@ -216,10 +364,29 @@ app.get("/admin", (req, res) => {
     )
     .join("")
 
+  // Generate rows for applications (Recrutement)
+  const appsRows = apps
+    .map(
+      (a) => `
+    <tr id="app-${a.id}">
+      <td>${a.createdAt ? new Date(a.createdAt).toLocaleString("fr-FR") : "—"}</td>
+      <td style="font-weight: 700;">${esc(a.name)}</td>
+      <td><span class="badge pro">${esc(a.position)}</span></td>
+      <td>${a.email ? `<a href="mailto:${esc(a.email)}">${esc(a.email)}</a>` : "—"}</td>
+      <td><a href="tel:${esc(a.phone)}">${esc(a.phone)}</a></td>
+      <td class="msg">${esc(a.message || "—")}</td>
+      <td>
+        <a href="/api/recrutement/${a.id}/cv" class="view-link" style="display:inline-block; background:#14171a; color:#fff; padding:6px 12px; border-radius:4px; font-size:11.5px; font-weight:600; text-transform:uppercase; letter-spacing:0.04em;">Télécharger CV</a>
+      </td>
+      <td><button class="del-btn" onclick="deleteApp('${a.id}')">Supprimer</button></td>
+    </tr>`,
+    )
+    .join("")
+
   // Construct tab content
-  const tabContent =
-    tab === "devis"
-      ? `
+  let tabContent = ""
+  if (tab === "devis") {
+    tabContent = `
       <div class="wrap">
         <!-- TABLEAU DES DEVIS -->
         ${
@@ -235,7 +402,7 @@ app.get("/admin", (req, res) => {
               <th>Email</th>
               <th>Téléphone</th>
               <th>Solutions souhaitées</th>
-              <th>Secteurs d'activité</th>
+              <th>Secteurs d\'activité</th>
               <th>Message</th>
               <th>Actions</th>
             </tr>
@@ -244,22 +411,47 @@ app.get("/admin", (req, res) => {
         </table>`
         }
       </div>`
-      : `
+  } else if (tab === "recrutement") {
+    tabContent = `
+      <div class="wrap">
+        <!-- TABLEAU DES CANDIDATURES -->
+        ${
+          apps.length === 0
+            ? '<div class="empty">Aucune candidature reçue pour le moment.</div>'
+            : `<table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Nom complet</th>
+              <th>Poste souhaité</th>
+              <th>Email</th>
+              <th>Téléphone</th>
+              <th>Message</th>
+              <th>CV (PDF/Word)</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>${appsRows}</tbody>
+        </table>`
+        }
+      </div>`
+  } else {
+    tabContent = `
       <div class="wrap">
         <!-- GESTION DU BLOG -->
         <section class="editor-section">
           <h2>Rédiger un article de blog</h2>
           <form id="blogForm" onsubmit="createBlog(event)">
             <div class="form-group">
-              <label>Titre de l'article</label>
-              <input type="text" id="blogTitle" required placeholder="Ex: L'importance des normes de sécurité pour les échafaudages..." />
+              <label>Titre de l\'article</label>
+              <input type="text" id="blogTitle" required placeholder="Ex: L\'importance des normes de sécurité pour les échafaudages..." />
             </div>
             <div class="form-group">
-              <label>Résumé de l'article</label>
-              <input type="text" id="blogSummary" required placeholder="Court résumé apparaissant dans la liste d'articles..." />
+              <label>Résumé de l\'article</label>
+              <input type="text" id="blogSummary" required placeholder="Court résumé apparaissant dans la liste d\'articles..." />
             </div>
             <div class="form-group">
-              <label>Image de l'article</label>
+              <label>Image de l\'article</label>
               <input type="file" id="blogImage" accept="image/*" onchange="previewImage(event)" />
               <div class="image-preview-container">
                 <img id="imagePreview" class="preview-img" alt="Aperçu" />
@@ -271,10 +463,10 @@ app.get("/admin", (req, res) => {
               <div id="pdfName" style="font-size: 13px; font-weight: 600; color: #d3121a; margin-top: 10px; display: none;"></div>
             </div>
             <div class="form-group">
-              <label>Contenu de l'article</label>
+              <label>Contenu de l\'article</label>
               <textarea id="blogContent" rows="10" required placeholder="Rédigez le contenu complet ici. Utilisez deux retours à la ligne pour créer un paragraphe..."></textarea>
             </div>
-            <button type="submit" class="submit-btn">Publier l'article</button>
+            <button type="submit" class="submit-btn">Publier l\'article</button>
           </form>
         </section>
 
@@ -295,13 +487,16 @@ app.get("/admin", (req, res) => {
         </table>`
         }
       </div>`
+  }
 
   // Read template HTML and replace variables
   try {
     let html = readFileSync(ADMIN_TEMPLATE_PATH, "utf-8")
     html = html.replace("{{SUBMISSIONS_COUNT}}", submissions.length)
     html = html.replace("{{BLOGS_COUNT}}", blogs.length)
+    html = html.replace("{{APPLICATIONS_COUNT}}", apps.length)
     html = html.replace("{{TAB_DEVIS_ACTIVE}}", tab === "devis" ? "active" : "")
+    html = html.replace("{{TAB_RECRUTEMENT_ACTIVE}}", tab === "recrutement" ? "active" : "")
     html = html.replace("{{TAB_BLOG_ACTIVE}}", tab === "blog" ? "active" : "")
     html = html.replace("{{TAB_CONTENT}}", tabContent)
 

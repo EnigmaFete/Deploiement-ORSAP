@@ -1,21 +1,24 @@
 import { Link } from "react-router"
+import manutentionPhoto from "@/imports/manutention_gerbeur.jpg"
+import revetementPhoto from "@/imports/revetement_bois.jpg"
+import outillagePhoto from "@/imports/outillage_bosch.jpg"
 
 // Category imagery sourced from Unsplash, pre-cropped to a 4:3 card ratio.
 const U = (id: string) =>
   `https://images.unsplash.com/${id}?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&q=80&w=1080&h=810`
 
 const EPI = U("photo-1735494032948-14ef288fc9d3")
-const OUTILLAGE = U("photo-1770763233593-74dfd0da7bf0")
+const OUTILLAGE = outillagePhoto
 const ROULEMENTS = U("photo-1524514587686-e2909d726e9b")
 const JARDINAGE = U("photo-1537877853655-34bdcda5e833")
 const CONSOMMABLES = U("photo-1644079446600-219068676743")
 const LUMINAIRES = U("photo-1762120514622-d57c902f2fe6")
 const ECHAFAUDAGE = U("photo-1649320316177-775fe2d67ca3")
-const MANUTENTION = U("photo-1620388640785-892616248ec8")
+const MANUTENTION = manutentionPhoto
 const CLIMATISATION = U("photo-1667983453881-4992fe86ab1b")
 const ELECTRICITE = U("photo-1780034766462-e8af5f2c9e22")
 const QUINCAILLERIE = U("photo-1763888450676-f0f7a3987917")
-const REVETEMENTS = U("photo-1560005627-c96e0aeb6eaa")
+const REVETEMENTS = revetementPhoto
 
 type Category = {
   slug: string
@@ -117,14 +120,14 @@ export default function Products() {
           <span className="h-px w-8 bg-orsap-red" />
           Catalogue produits
         </div>
-        <h1 className="font-display text-[clamp(2.2rem,4.2vw,3.6rem)] font-black leading-[1.02] tracking-[-0.025em]">
+        <h1 className="font-display text-[clamp(1.9rem,3.6vw,3rem)] font-black leading-[1.05] tracking-[-0.025em]">
           Plus de 15 000 références pour l&apos;industrie, le bâtiment et
           l&apos;agencement.
         </h1>
         <p className="mt-6 text-[17px] leading-[1.6] text-ink-soft">
           EPI, outillage, manutention, électricité, plomberie, revêtements et
           bien plus : douze familles de produits, plus de 300 marques
-          internationales et une livraison en 72h sur la plupart de nos
+          internationales et une livraison en 48h sur la plupart de nos
           références.
         </p>
       </div>

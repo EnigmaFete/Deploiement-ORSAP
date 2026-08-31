@@ -1,11 +1,12 @@
 import { Link } from "react-router"
 import heroPhoto from "@/imports/Hero_Acceuil.jpeg"
+import logoButec from "@/imports/logo_butec.svg"
 
 const STATS = [
-  { value: "15 000", unit: "références", note: "disponibles en stock" },
-  { value: "72h", unit: "délai max", note: "de livraison au Maroc" },
-  { value: "300", unit: "marques", note: "distribuées et sourcées" },
-  { value: "100", unit: "grands comptes", note: "industriels servis" },
+  { value: "+15 000", unit: "références", note: "disponibles en stock" },
+  { value: "48h", unit: "délai max", note: "de livraison au Maroc" },
+  { value: "+300", unit: "marques", note: "distribuées et sourcées" },
+  { value: "+100", unit: "grands comptes", note: "industriels servis" },
 ]
 
 export default function Home() {
@@ -24,18 +25,17 @@ export default function Home() {
         <div className="relative mx-auto flex min-h-[calc(100svh-118px)] max-w-[1240px] flex-col justify-center px-6 py-16 text-paper">
           <div className="mb-7 flex items-center gap-3 text-[12.5px] font-semibold uppercase tracking-[0.14em] text-safety">
             <span className="h-px w-8 bg-safety" />
-            Fournisseur industriel au Maroc
+            Solution B2B industrielle
           </div>
 
-          <h1 className="max-w-3xl font-display text-[clamp(2.8rem,6vw,5.2rem)] font-black leading-[0.95] tracking-[-0.025em] text-white">
-            Tout l&apos;équipement de vos chantiers et de vos usines.
+          <h1 className="max-w-3xl font-display text-[clamp(2.5rem,5.5vw,4.2rem)] font-black leading-[1.05] tracking-[-0.025em] flex flex-col gap-3">
+            <span className="text-white">Protégez vos équipes.</span>
+            <span className="text-orsap-red">Équipez vos projets.</span>
           </h1>
 
           <p className="mt-7 max-w-xl text-[17px] leading-[1.6] text-white/80">
-            EPI, outillage, roulements, manutention, plomberie et électricité
-            industrielle : ORSAP importe et distribue plus de 15&nbsp;000
-            références pour les usines, les entreprises du BTP et les
-            gestionnaires de sites.
+            Solutions EPI, travail en hauteur, manutention et personnalisation
+            pour les grandes structures industrielles.
           </p>
 
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
@@ -79,6 +79,51 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Testimonial Section */}
+      <section className="border-t border-hairline bg-paper py-16 lg:py-20">
+        <div className="mx-auto max-w-[1240px] px-6">
+          <div className="mx-auto max-w-3xl text-center">
+            <div className="mb-6 flex justify-center text-[12.5px] font-semibold uppercase tracking-[0.14em] text-orsap-red">
+              <span className="flex items-center gap-3">
+                <span className="h-px w-8 bg-orsap-red" />
+                Témoignage Client
+                <span className="h-px w-8 bg-orsap-red" />
+              </span>
+            </div>
+
+            <blockquote className="font-display text-[clamp(1.1rem,1.9vw,1.4rem)] font-semibold italic leading-[1.5] tracking-tight text-ink">
+              “ ORSAP est devenu notre partenaire de référence pour l’équipement
+              EPI de nos 1 200 salariés, du travail en hauteur et de la
+              manutention. Leur capacité à personnaliser et à livrer dans les
+              délais, tout en respectant nos exigences de conformité, est
+              remarquable. ”
+            </blockquote>
+
+            <div className="my-7 mx-auto h-px w-16 bg-hairline" />
+
+            <div className="flex flex-col items-center justify-center gap-3.5">
+              <img
+                src={logoButec}
+                alt="Logo BUTEC"
+                className="h-8 w-auto object-contain opacity-90"
+              />
+              <div className="text-center">
+                <div className="font-display text-[15px] font-bold text-ink">
+                  M. Amine
+                </div>
+                <div className="text-[13px] font-medium text-ink-soft mt-0.5">
+                  Responsable Achats, BUTEC
+                </div>
+                <div className="mt-3.5 inline-block rounded-full bg-white px-4 py-1 text-[11.5px] font-medium text-steel border border-hairline">
+                  <span className="font-semibold text-ink-soft">Secteur :</span>{" "}
+                  Maintenance multitechnique, efficacité énergétique & facility management
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Video Section */}
       <section className="border-t border-hairline bg-card py-16 lg:py-24">
         <div className="mx-auto max-w-[1240px] px-6">
@@ -91,11 +136,20 @@ export default function Home() {
               <h2 className="font-display text-[clamp(1.8rem,3vw,2.4rem)] font-black leading-[1.1] tracking-[-0.02em]">
                 Découvrez ORSAP en vidéo
               </h2>
-              <p className="mt-5 text-[15.5px] leading-[1.65] text-ink-soft">
-                Découvrez nos infrastructures, nos équipes et notre engagement à
-                vous fournir les meilleures solutions techniques et équipements
-                industriels au Maroc.
-              </p>
+              <div className="mt-5 space-y-4 text-[15.5px] leading-[1.65] text-ink-soft">
+                <p>
+                  Découvrez nos infrastructures, nos équipes et notre engagement à
+                  vous fournir les meilleures solutions techniques et équipements
+                  industriels au Maroc.
+                </p>
+                <p>
+                  Quelque soit le marché dans lequel vous évoluez ou vos projets,
+                  nos conseillers, tous experts dans un ou plusieurs domaines
+                  (Équipement de Protection Individuelle EPI, Travail en
+                  Hauteur, Manutention ou outillages...), sauront vous assister
+                  et surtout vous apporter la meilleure solution.
+                </p>
+              </div>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Link
                   to="/a-propos"

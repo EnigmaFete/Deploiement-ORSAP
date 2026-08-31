@@ -38,6 +38,7 @@ export default defineConfig(({ mode }) => {
       watch: { ignored: ["**/.figma/**", "**/submissions.json"] },
       proxy: {
         "/api": "http://localhost:3001",
+        "/admin": "http://localhost:3001",
       },
     },
     preview: {

@@ -5,7 +5,7 @@ const STATS = [
   { value: "8", label: "secteurs accompagnés" },
   { value: "15 000+", label: "références mobilisées" },
   { value: "1", label: "interlocuteur unique" },
-  { value: "72h", label: "livraison max" },
+  { value: "48h", label: "livraison max" },
 ]
 
 export default function Testimonials() {

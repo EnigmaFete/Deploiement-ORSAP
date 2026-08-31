@@ -5,7 +5,7 @@ const STATS = [
   { value: "15 000+", label: "produits" },
   { value: "300+", label: "marques" },
   { value: "100+", label: "grands comptes" },
-  { value: "72h", label: "livraison max" },
+  { value: "48h", label: "livraison max" },
 ]
 
 export default function Services() {

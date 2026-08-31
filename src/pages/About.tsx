@@ -12,7 +12,7 @@ const VALUES = [
   },
   {
     title: "Réactivité et proximité",
-    body: "Avec un délai de livraison maximum de 72h sur la plupart de nos références et une présence forte sur le terrain, nous savons être là quand vous en avez besoin.",
+    body: "Avec un délai de livraison maximum de 48h sur la plupart de nos références et une présence forte sur le terrain, nous savons être là quand vous en avez besoin.",
   },
   {
     title: "Engagement environnemental",
@@ -82,10 +82,11 @@ export default function About() {
                 fournir des solutions techniques fiables, rapides et durables
               </span>
               , qui améliorent la productivité, la sécurité et le confort de nos
-              clients. Équiper un atelier, sécuriser un chantier, rénover un
-              local ou optimiser une ligne de production : nous mettons à
-              disposition notre expertise, notre stock et notre réseau pour
-              répondre dans les meilleurs délais.
+              clients. Selon vos besoins, protéger vos équipes contre tous les
+              risques éventuels lors de l&apos;exécution de leurs missions,
+              faciliter le travail en hauteur, ou encore fournir les produits de
+              manutention les plus exigeants en termes de sécurité et de normes
+              internationales.
             </p>
           </div>
         </div>

@@ -83,3 +83,18 @@ export function loadBlogs() {
 export function saveBlogs(data) {
   writeFileSync(BLOG_DB_PATH, JSON.stringify(data, null, 2), "utf-8")
 }
+
+const APP_DB_PATH = join(DATA_DIR, "applications.json")
+
+export function loadApplications() {
+  if (!existsSync(APP_DB_PATH)) return []
+  try {
+    return JSON.parse(readFileSync(APP_DB_PATH, "utf-8"))
+  } catch {
+    return []
+  }
+}
+
+export function saveApplications(data) {
+  writeFileSync(APP_DB_PATH, JSON.stringify(data, null, 2), "utf-8")
+}

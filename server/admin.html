@@ -58,8 +58,12 @@
       <p>Panneau de gestion du site internet</p>
       <div class="nav-tabs">
         <a href="/admin?tab=devis" class="tab-btn {{TAB_DEVIS_ACTIVE}}">Demandes de devis ({{SUBMISSIONS_COUNT}})</a>
+        <a href="/admin?tab=recrutement" class="tab-btn {{TAB_RECRUTEMENT_ACTIVE}}">Recrutement ({{APPLICATIONS_COUNT}})</a>
         <a href="/admin?tab=blog" class="tab-btn {{TAB_BLOG_ACTIVE}}">Gestion du Blog ({{BLOGS_COUNT}})</a>
       </div>
+    </div>
+    <div>
+      <a href="/admin/logout" class="tab-btn" style="background: rgba(211, 18, 26, 0.2); border: 1px solid #d3121a; color: #fff; padding: 8px 16px; border-radius: 4px; font-size: 12.5px; text-transform: uppercase; font-weight: 700; letter-spacing: 0.04em;">Déconnexion</a>
     </div>
   </div>
 
@@ -115,6 +119,19 @@
       const res = await fetch("/api/devis/" + id, { method: "DELETE" });
       if (res.ok) {
         const row = document.getElementById("row-" + id);
+        if (row) row.remove();
+        location.reload();
+      } else {
+        alert("Erreur lors de la suppression.");
+      }
+    }
+
+    // Delete application
+    async function deleteApp(id) {
+      if (!confirm("Supprimer cette candidature ?")) return;
+      const res = await fetch("/api/recrutement/" + id, { method: "DELETE" });
+      if (res.ok) {
+        const row = document.getElementById("app-" + id);
         if (row) row.remove();
         location.reload();
       } else {

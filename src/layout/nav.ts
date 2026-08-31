@@ -6,5 +6,6 @@ export const NAV = [
   { label: "Marques", to: "/marques" },
   { label: "Témoignages", to: "/temoignages" },
   { label: "Blog", to: "/blog" },
+  { label: "Recrutement", to: "/recrutement" },
   { label: "Contact", to: "/contact" },
 ]

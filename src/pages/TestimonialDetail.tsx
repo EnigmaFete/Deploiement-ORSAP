@@ -52,9 +52,11 @@ export default function TestimonialDetail() {
                 className="max-h-14 w-auto max-w-[220px] object-contain"
               />
             </div>
-            <span className="font-display text-[clamp(1.6rem,3.5vw,2.6rem)] font-black uppercase leading-none tracking-[-0.02em] text-white">
-              {data.client}
-            </span>
+            {data.slug !== "ventec" && (
+              <span className="font-display text-[clamp(1.6rem,3.5vw,2.6rem)] font-black uppercase leading-none tracking-[-0.02em] text-white">
+                {data.client}
+              </span>
+            )}
           </div>
           <h1 className="mt-6 max-w-2xl font-display text-[clamp(1.5rem,3vw,2.2rem)] font-bold leading-[1.1] tracking-[-0.02em] text-white/90">
             {data.title}
